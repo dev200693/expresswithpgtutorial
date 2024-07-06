@@ -1,5 +1,6 @@
 const express = require('express');
 const { Client } = require('pg');
+const inputValidation = require('./middlewares/inputValidation');
 
 const taskRouter = express.Router();
 
@@ -27,7 +28,7 @@ client.connect().then(() => { console.log('Connected to PostgreSQL database!'); 
     .catch((err) => { console.error('Error connecting to the database:', err); });
 
 //create a task
-taskRouter.post('/', async (req, res) => {
+taskRouter.post('/', inputValidation.validateCreateTaskReq, async (req, res) => {
 
     const { description } = req.body;
 
